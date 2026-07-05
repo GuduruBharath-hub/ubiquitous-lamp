@@ -1,0 +1,103 @@
+Cell 8:
+# ── 4c. Fix data types ──
+
+# Convert InvoiceDate to datetime
+if 'InvoiceDate' in df_clean.columns:
+    df_clean['InvoiceDate'] = pd.to_datetime(df_clean['InvoiceDate'])
+    df_clean['Year']  = df_clean['InvoiceDate'].dt.year
+    df_clean['Month'] = df_clean['InvoiceDate'].dt.month
+    df_clean['Day']   = df_clean['InvoiceDate'].dt.day
+    print('InvoiceDate converted to datetime ✅')
+
+# Convert CustomerID to string (it's an ID, not a number)
+if 'CustomerID' in df_clean.columns:
+    df_clean['CustomerID'] = df_clean['CustomerID'].astype(int).astype(str)
+    print('CustomerID converted to string ✅')
+
+df_clean.dtypes
+----------------------------------------
+Cell 17:
+# ── 5f. Line Chart — Monthly Sales Trend ──
+monthly_sales = (
+    df_clean.groupby(['Year', 'Month'])['TotalPrice']
+    .sum()
+    .reset_index()
+)
+monthly_sales['Period'] = pd.to_datetime(
+    monthly_sales['Year'].astype(str) + '-' + monthly_sales['Month'].astype(str)
+)
+monthly_sales.sort_values('Period', inplace=True)
+
+plt.figure(figsize=(13, 5))
+plt.plot(monthly_sales['Period'], monthly_sales['TotalPrice'],
+         marker='o', color='steelblue', linewidth=2)
+plt.fill_between(monthly_sales['Period'], monthly_sales['TotalPrice'],
+                 alpha=0.15, color='steelblue')
+plt.title('Monthly Sales Revenue Trend', fontsize=15)
+plt.xlabel('Month')
+plt.ylabel('Total Revenue (£)')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.savefig('../reports/line_monthly_sales.png', dpi=150)
+plt.show()
+----------------------------------------
+Cell 19:
+# ── 5h. Interactive Chart (Plotly) — Monthly Sales ──
+fig = px.line(
+    monthly_sales, x='Period', y='TotalPrice',
+    title='Interactive Monthly Sales Trend',
+    labels={'TotalPrice': 'Revenue (£)', 'Period': 'Month'},
+    markers=True
+)
+fig.write_html('../reports/interactive_monthly_sales.html')
+print('✅ Interactive chart saved to reports/interactive_monthly_sales.html')
+----------------------------------------
+Cell 20:
+print('=' * 60)
+print('           📌 5 KEY INSIGHTS FROM EDA')
+print('=' * 60)
+
+# Insight 1 — Top Country
+top_country = top_countries.iloc[0]
+print(f"""
+1️⃣  TOP MARKET:
+   '{top_country['Country']}' is the highest revenue-generating
+   country with £{top_country['TotalPrice']:,.0f} in total sales.
+""")
+
+# Insight 2 — Best Product
+top_product = top_products.iloc[0]
+print(f"""
+2️⃣  BEST-SELLING PRODUCT:
+   '{top_product['Description']}' is the most purchased product
+   with {top_product['Quantity']:,} units sold.
+""")
+
+# Insight 3 — Peak Month
+peak_month = monthly_sales.loc[monthly_sales['TotalPrice'].idxmax()]
+print(f"""
+3️⃣  PEAK SALES MONTH:
+   {peak_month['Period'].strftime('%B %Y')} recorded the highest revenue
+   of £{peak_month['TotalPrice']:,.0f}.
+""")
+
+# Insight 4 — Average Order Value
+avg_order = df_clean['TotalPrice'].mean()
+print(f"""
+4️⃣  AVERAGE ORDER VALUE:
+   The average transaction value is £{avg_order:.2f},
+   suggesting most purchases are small-to-mid range.
+""")
+
+# Insight 5 — Unique Customers
+unique_customers = df_clean['CustomerID'].nunique()
+unique_products  = df_clean['Description'].nunique()
+print(f"""
+5️⃣  CUSTOMER & PRODUCT DIVERSITY:
+   The dataset contains {unique_customers:,} unique customers
+   purchasing across {unique_products:,} different products,
+   showing a diverse customer base.
+""")
+
+print('=' * 60)
+----------------------------------------
