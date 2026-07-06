@@ -1,10 +1,10 @@
-# 📊 Task 4 — Advanced Analytics (Basic)
+# 📊 Task 5 — Final Report, Automation & Presentation
 
 ![Status](https://img.shields.io/badge/Status-Complete-success)
 ![Python](https://img.shields.io/badge/Python-3.x-yellow)
-![Scikit--Learn](https://img.shields.io/badge/Scikit--Learn-ML-orange)
-![SciPy](https://img.shields.io/badge/SciPy-Statistics-blue)
-![Timeline](https://img.shields.io/badge/Timeline-6%20Days-purple)
+![PDF](https://img.shields.io/badge/Report-PDF-red)
+![Excel](https://img.shields.io/badge/Export-Excel-green)
+![Timeline](https://img.shields.io/badge/Timeline-4%20Days-orange)
 
 > Part of the **ApexPlanet Data Analytics Internship — 30 Days**
 > 🏢 [ApexPlanet Software Pvt. Ltd.](https://www.apexplanet.in)
@@ -13,7 +13,7 @@
 
 ## 🎯 Objective
 
-Apply statistical analysis and basic machine learning techniques — including hypothesis testing, customer segmentation via K-Means clustering, and predictive modeling — on the cleaned E-commerce Sales dataset.
+Create a professional executive PDF report, automate the full data pipeline from raw data to Excel export, and submit all deliverables for the final internship evaluation.
 
 ---
 
@@ -21,9 +21,9 @@ Apply statistical analysis and basic machine learning techniques — including h
 
 | Days | Focus Area |
 |------|------------|
-| Day 21–22 | Statistical Analysis (Descriptive Stats + Hypothesis Testing + Confidence Intervals) |
-| Day 23–24 | Customer Segmentation using K-Means Clustering (RFM + PCA) |
-| Day 25–26 | Basic Predictive Models (Linear Regression + Logistic Regression) |
+| Day 27 | Executive Summary PDF Report (2 pages, KPIs, insights, recommendations) |
+| Day 28–29 | Automated Pipeline Script (Load → Clean → Analyse → Excel → Charts) |
+| Day 30 | GitHub Cleanup, requirements.txt, Final Submission |
 
 ---
 
@@ -31,139 +31,164 @@ Apply statistical analysis and basic machine learning techniques — including h
 
 | Tool | Purpose |
 |------|---------|
-| Pandas & NumPy | Data preparation and feature engineering |
-| SciPy (`scipy.stats`) | Statistical tests — t-test, chi-square, confidence intervals |
-| Scikit-Learn | Machine learning — clustering, regression, evaluation |
-| Matplotlib & Seaborn | Visualizing results and model outputs |
+| fpdf2 | Generate professional 2-page PDF executive report |
+| openpyxl | Export KPIs and analytics to formatted Excel workbook |
+| Pandas & NumPy | Data loading, cleaning and KPI computation |
+| Matplotlib | Generate charts embedded in report and pipeline output |
+| schedule | Pipeline scheduling capability |
 
 ---
 
-## 📅 Day 21–22: Statistical Analysis
+## 📅 Day 27: Executive Summary PDF Report
 
-### Descriptive Statistics
-Computed mean, median, standard deviation, skewness, and kurtosis for:
-- `Quantity` — units ordered per transaction
-- `UnitPrice` — price per unit
-- `TotalPrice` — total transaction value
+### What the Report Contains
 
-**Key Finding:** All three variables are right-skewed — most transactions are small, but a small number of very large orders pull the average upward.
+**Page 1:**
+- Executive Summary paragraph
+- 8 Key Performance Indicators (KPI table)
+- Monthly Revenue Trend chart (embedded image)
 
-### Hypothesis Testing
+**Page 2:**
+- Top 5 Key Insights (with business context)
+- 3 Actionable Business Recommendations
+- All 5 Internship Tasks completion status
+- Professional footer with branding
 
-**T-Test — UK vs Non-UK Spending**
+### Key KPIs in the Report
 
-| Metric | Value |
-|--------|-------|
-| Null Hypothesis | UK and Non-UK customers spend the same |
-| Test | Independent samples t-test |
-| Significance Level | 0.05 |
-| Result | Significant difference found (p < 0.05) |
-| Business Insight | UK and Non-UK customers have meaningfully different spending behavior — separate marketing strategies are warranted |
+| KPI | Description |
+|-----|-------------|
+| Total Revenue | Sum of all transaction values |
+| Total Orders | Unique invoice count |
+| Unique Customers | Number of distinct buyers |
+| Unique Products | Number of distinct items sold |
+| Avg Order Value | Revenue ÷ Orders |
+| Top Country | Highest revenue market |
+| Peak Sales Month | Highest revenue month |
+| Total Rows Analysed | Dataset size after cleaning |
 
-**Chi-Square Test — Month vs High-Value Orders**
+### Top 5 Insights Documented
 
-| Metric | Value |
-|--------|-------|
-| Null Hypothesis | Month has no effect on whether an order is high-value |
-| Test | Chi-Square test of independence |
-| Significance Level | 0.05 |
-| Result | Month significantly affects order value (p < 0.05) |
-| Business Insight | Seasonal timing matters — certain months consistently produce higher-value orders |
+1. **Seasonal Revenue Peak** — Q4 (Oct–Nov) consistently produces peak revenue; confirmed by both EDA and statistical testing.
+2. **Geographic Concentration** — One country dominates revenue contribution; international markets remain an untapped growth opportunity.
+3. **Customer Segmentation** — K-Means revealed 4 distinct customer tiers: Champions, Loyal, At-Risk, and Occasional.
+4. **Statistical Spending Differences** — T-Test confirmed UK vs Non-UK customers have significantly different spending behaviors (p < 0.05).
+5. **Predictive Modeling** — Logistic Regression achieved strong accuracy; UnitPrice is the strongest predictor of order value.
 
-### Confidence Intervals
-Computed a **95% confidence interval** for the average order value from a random sample of 1,000 transactions, giving a reliable range for the true population mean.
+### 3 Business Recommendations
 
----
-
-## 📅 Day 23–24: Customer Segmentation (K-Means Clustering)
-
-### RFM Feature Engineering
-Created three behavioral features per customer:
-
-| Feature | Definition |
-|---------|-----------|
-| **Recency (R)** | Days since the customer's last purchase |
-| **Frequency (F)** | Number of unique invoices (orders) |
-| **Monetary (M)** | Total amount spent |
-
-### Clustering Process
-1. Scaled RFM features using `StandardScaler`
-2. Used the **Elbow Method** to find optimal K (K=4 selected)
-3. Applied **K-Means clustering** with K=4
-4. Visualized clusters in 2D using **PCA**
-
-### Customer Segments & Recommendations
-
-| Cluster | Segment | Description | Recommendation |
-|---------|---------|-------------|----------------|
-| 0 | At-Risk Customers | Haven't bought recently, low frequency | Win-back campaigns, special discounts |
-| 1 | Loyal Customers | Buy regularly, moderate spend | Upsell premium products |
-| 2 | New / Occasional | Low frequency, recent first purchase | Nurture with onboarding emails |
-| 3 | Champions | Most recent, most frequent, highest spend | Reward with loyalty programs, early access |
+1. **Invest in Q4 Marketing** — Allocate 40%+ of marketing budget to Oct–Dec for flash sales, bundles, and email campaigns.
+2. **Launch Customer Loyalty Program** — Reward Champions and Loyal customers with tiered benefits, early access, and exclusive discounts.
+3. **Win-Back At-Risk Customers** — Deploy targeted campaigns with time-limited vouchers and personalised product recommendations.
 
 ---
 
-## 📅 Day 25–26: Basic Predictive Models
+## 📅 Day 28–29: Automated Pipeline
 
-### Model A — Linear Regression (Predict Total Order Value)
+### What the Pipeline Does
 
-| Metric | Result |
-|--------|--------|
-| Features | Quantity, UnitPrice |
-| Target | TotalPrice |
-| Train/Test Split | 80% / 20% |
-| R² Score | *see notebook output* |
-| MAE | *see notebook output* |
-| RMSE | *see notebook output* |
+The automated script (`scripts/pipeline.py`) runs the entire analytics workflow in 5 steps:
 
-### Model B — Logistic Regression (Predict High-Value Order)
+```
+[1/5] Load raw data       → data/data.csv
+[2/5] Clean data          → data/data_cleaned_auto.csv
+[3/5] Compute KPIs        → printed to console
+[4/5] Export to Excel     → reports/analytics_report.xlsx
+[5/5] Generate charts     → reports/pipeline_summary_charts.png
+```
 
-| Metric | Result |
-|--------|--------|
-| Features | Quantity, UnitPrice, Month |
-| Target | HighValue (1 = above median, 0 = below) |
-| Train/Test Split | 80% / 20% |
-| Accuracy | *see notebook output* |
-| Precision | *see notebook output* |
-| Recall | *see notebook output* |
-| Top Feature | UnitPrice (strongest predictor) |
+### Excel Report Structure (analytics_report.xlsx)
 
----
+| Sheet | Contents |
+|-------|----------|
+| KPI Summary | All 6 key metrics in a formatted table |
+| Monthly Revenue | Month-by-month revenue, orders, customers |
+| Top Countries | Top 10 countries by revenue and customer count |
+| Top Products | Top 10 products by revenue and quantity sold |
 
-## 💡 Key Findings
-
-1. **📊 Right-Skewed Distributions** — Most transactions are small-value; a few very large orders significantly influence the mean, making median a more reliable central measure for business decisions.
-2. **🌍 Regional Spending Differences** — T-test confirmed that UK and Non-UK customers have statistically different spending patterns, supporting region-specific pricing or promotions.
-3. **📅 Seasonality Affects Order Quality** — Chi-square test proved that the month of purchase is significantly linked to whether an order is high-value, validating Q4-focused marketing.
-4. **👥 Four Distinct Customer Tiers** — K-Means segmentation revealed Champions, Loyal, At-Risk, and Occasional customer clusters — each requiring a different business response.
-5. **🔮 UnitPrice is the Strongest Predictor** — In both regression models, UnitPrice was the most influential feature in predicting order value and high-value classification.
-
----
-
-## 📁 Deliverables
-
-- ✅ `notebooks/task4_advanced_analytics.ipynb` — Full notebook with stats + clustering + prediction models
-- ✅ `reports/stat_distributions.png` — Descriptive statistics distribution plots
-- ✅ `reports/stat_ttest.png` — T-test boxplot visualization
-- ✅ `reports/cluster_elbow.png` — Elbow method chart for optimal K
-- ✅ `reports/cluster_pca.png` — PCA 2D cluster scatter plot
-- ✅ `reports/cluster_comparison.png` — RFM metrics comparison by cluster
-- ✅ `reports/model_linear_regression.png` — Actual vs predicted chart
-- ✅ `reports/model_confusion_matrix.png` — Logistic regression confusion matrix
-- ✅ `reports/model_feature_importance.png` — Feature importance bar chart
-
----
-
-## 🚀 How to Run
+### How to Run the Pipeline
 
 ```bash
-# Install required libraries first
-pip install scipy scikit-learn statsmodels
-
 # From the project root
-jupyter notebook notebooks/task4_advanced_analytics.ipynb
+python scripts/pipeline.py
+```
 
-# Run all cells top to bottom (Cell → Run All)
+The entire pipeline completes in seconds and outputs all files automatically.
+
+---
+
+## 📅 Day 30: Final GitHub Cleanup
+
+### Files Added
+
+- ✅ `requirements.txt` — all Python package dependencies with version pins
+- ✅ `scripts/pipeline.py` — standalone automation script
+- ✅ `reports/final_executive_report.pdf` — 2-page professional PDF
+- ✅ `reports/analytics_report.xlsx` — 4-sheet formatted Excel workbook
+
+### Final Git Commands
+
+```bash
+git add .
+git commit -m "Task 5 complete: Final report, pipeline automation & submission"
+git tag v1.0.0
+git push origin main
+git push origin v1.0.0
+```
+
+---
+
+## 📁 Complete Project Deliverables
+
+| File | Task | Description |
+|------|------|-------------|
+| `notebooks/task1_eda.ipynb` | Task 1 | EDA + Data Cleaning |
+| `notebooks/task2_sql.ipynb` | Task 2 | SQL Extraction |
+| `notebooks/task3_visualization.ipynb` | Task 3 | Charts + Dashboard |
+| `notebooks/task4_advanced_analytics.ipynb` | Task 4 | Stats + ML Models |
+| `notebooks/task5_final.ipynb` | Task 5 | Report + Pipeline |
+| `scripts/task2_queries.sql` | Task 2 | All SQL queries |
+| `scripts/pipeline.py` | Task 5 | Automation script |
+| `data/data_cleaned.csv` | Task 1 | Cleaned dataset |
+| `data/ecommerce.db` | Task 2 | SQLite database |
+| `dashboards/executive_dashboard.html` | Task 3 | Interactive dashboard |
+| `reports/final_executive_report.pdf` | Task 5 | PDF report |
+| `reports/analytics_report.xlsx` | Task 5 | Excel KPI export |
+| `requirements.txt` | Task 5 | Python dependencies |
+| `README.md` | All | Project documentation |
+
+---
+
+## 🏆 Skills Demonstrated Across All 5 Tasks
+
+- ✅ Python for Data Analytics (Pandas, NumPy, Matplotlib, Seaborn, Plotly)
+- ✅ SQL (SQLite, SQLAlchemy, Window Functions, CTEs, Views)
+- ✅ Statistical Analysis (T-Test, Chi-Square, Confidence Intervals)
+- ✅ Machine Learning (K-Means Clustering, PCA, Linear & Logistic Regression)
+- ✅ Dashboard Creation (Interactive Plotly Executive Dashboard)
+- ✅ Report Generation (PDF with fpdf2, Excel with openpyxl)
+- ✅ Pipeline Automation (end-to-end Python script)
+- ✅ GitHub Version Control (commits, tags, public repo)
+
+---
+
+## 🚀 How to Run Everything
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/YOUR_USERNAME/apexplanet-data-analytics.git
+cd apexplanet-data-analytics
+
+# 2. Install all dependencies
+pip install -r requirements.txt
+
+# 3. Run notebooks in order
+jupyter notebook
+# → task1_eda.ipynb → task2_sql.ipynb → task3_visualization.ipynb
+# → task4_advanced_analytics.ipynb → task5_final.ipynb
+
+# 4. Or run the automated pipeline directly
+python scripts/pipeline.py
 ```
 
 ---
@@ -175,5 +200,14 @@ jupyter notebook notebooks/task4_advanced_analytics.ipynb
 
 ---
 
-*ApexPlanet Data Analytics Internship — Task 4 of 5*
+## 🏢 About the Internship
+
+**[ApexPlanet Software Pvt. Ltd.](https://www.apexplanet.in)**
+- 📞 +91 99058 79870
+- 📧 apexplanetgaya@gmail.com
+- 🌐 www.apexplanet.in
+
+---
+
+*ApexPlanet Data Analytics Internship — Task 5 of 5 — COMPLETE! 🏁*
 *© 2024 ApexPlanet Software Pvt. Ltd.*
